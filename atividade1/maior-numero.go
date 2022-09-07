@@ -8,7 +8,7 @@ func MaiorNumero() {
 		maior float32
 	)
 	for i := 0; i < 5; i++ {
-		fmt.Println("Informe a %d nota", i)
+		fmt.Printf("Informe a %d nota", i)
 		fmt.Scan(&notas[i])
 	}
 	for i := 0; i < 5; i++ {
