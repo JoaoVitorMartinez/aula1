@@ -1,14 +1,25 @@
 package atividade3
 
-var (
-	numero, fatorial int
+import (
+	"fmt"
 )
 
-func Fatorial(numero int) int {
+func Fatorial() {
+	var numero int
+
+	fmt.Println("Informe um numero:")
+	fmt.Scan(&numero)
+
+	fmt.Println("O fatorial é", CalculaFatorial(numero))
+}
+
+func CalculaFatorial(numero int) int {
 
 	if numero == 1 {
 		return 1
 	} else {
-		Fatorial := numero*numero - 1
+		return numero * CalculaFatorial(numero-1)
+
 	}
+
 }
