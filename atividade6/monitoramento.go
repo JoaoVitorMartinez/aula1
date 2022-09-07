@@ -4,9 +4,11 @@ import (
 	"bufio"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"net/http"
 	"os"
 	"strings"
+	"time"
 )
 
 func Monitoramento() {
@@ -34,8 +36,36 @@ loop:
 
 	for i, site := range sites {
 		fmt.Println(i, site)
-		fmt.Println(HttpGet(site))
+		arquivo, err = os.OpenFile("log.txt", os.O_CREATE|os.O_RDWR|os.O_APPEND, 0666)
+
+		if err != nil {
+			fmt.Println(err)
+		}
+		status, _ := HttpGet(site)
+		fmt.Println(status)
+
+		if status.StatusCode == 200 {
+			current := time.Now().Format("02/01/2006 15:04:05 UTC - ")
+			arquivo.WriteString(current + site + " Status: OK\n")
+		} else {
+			current := time.Now().Format("02/01/2006 15:04:05 UTC - ")
+			arquivo.WriteString(current + site + "Status: Error\n")
+		}
+
+		arquivo.Close()
+
 	}
+
+	fmt.Println()
+	fmt.Println("Exibindo conteúdo dos logs")
+	fmt.Println()
+	log, err := ioutil.ReadFile("log.txt")
+
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	fmt.Println(string(log))
 
 }
 
